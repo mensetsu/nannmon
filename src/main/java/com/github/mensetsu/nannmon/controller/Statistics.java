@@ -11,9 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 public class Statistics {
 
 	@RequestMapping(value = "/statistics", method = RequestMethod.GET)
-	public String get() {
-		log.info("Get has been called...");
-		return "Get stats has been called";
+	public StatisticsResponse get() {
+		log.debug("Stats GET has been called...");
+		// specifications don't mention a specific response code, so won't specify one here
+		return new StatisticsResponse(1000, 100, 200, 50, 10);
 	}
 
 }

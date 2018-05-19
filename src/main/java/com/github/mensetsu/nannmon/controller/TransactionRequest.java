@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class TransactionRequest {
 	
+	// fields are Objects as it's easier to check when parameters haven't been provided (see isValid())
 	private Double amount;
 	private Long timestamp;
 	
