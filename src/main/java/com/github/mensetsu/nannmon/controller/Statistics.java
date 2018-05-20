@@ -24,9 +24,6 @@ public class Statistics {
 	public StatisticsResponse get() {
 		log.debug("Stats GET has been called...");
 		
-		// XXX: remove me later when we've threaded this up...
-		cache.computeCurrentResponse();
-		
 		// specifications don't mention a specific response code, so won't specify one here
 		return cache.getCurrentResponse();
 	}

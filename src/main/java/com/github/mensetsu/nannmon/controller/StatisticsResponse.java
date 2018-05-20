@@ -1,5 +1,7 @@
 package com.github.mensetsu.nannmon.controller;
 
+import com.github.mensetsu.nannmon.service.CachedStatistic;
+
 import lombok.Data;
 
 @Data
@@ -12,19 +14,22 @@ public class StatisticsResponse {
 	private long count;
 	
 	public StatisticsResponse() {
-		// initialize everything to 0
+		// initialize
 		sum = avg = max = min = count = 0;
 	}
 	
-	public void addEntry(double value) {
-		count++;
-		if (min == 0d || value < min) {
-			min = value;
+	public void update(CachedStatistic cachedStatistic) {
+		sum += cachedStatistic.getSum();
+		// just be careful not to use min if it's 0
+		double minValue = cachedStatistic.getMin();
+		if (minValue > 0d && (min == 0d || minValue < min)) {
+			min = minValue;
 		}
-		if (value > max) {
-			max = value;
+		double maxValue = cachedStatistic.getMax();
+		if (maxValue > max) {
+			max = maxValue;
 		}
-		sum += value;
+		count += cachedStatistic.getCount();
 	}
 	
 	public void calculateAvg() {

@@ -1,32 +1,30 @@
 package com.github.mensetsu.nannmon.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.springframework.stereotype.Service;
 
 import com.github.mensetsu.nannmon.controller.StatisticsResponse;
 import com.github.mensetsu.nannmon.controller.TransactionRequest;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class CacheService {
 	
+	private final static int SECONDS = 60;
 	// 60 seconds in milliseconds 
-	private final static long ONE_MINUTE = 1000 * 60;
+	private final static long ONE_MINUTE = 1000 * SECONDS;
 	
 	// entries of transaction amounts by timestamp
-	private final ConcurrentHashMap<Long, List<Double>> entries;
-	@Getter
-	private StatisticsResponse currentResponse;
+	private final CachedStatistic[] entries;
 	
 	public CacheService() {
-		entries = new ConcurrentHashMap<>();
-		currentResponse = new StatisticsResponse();
+		// create initial cache with one element for each second that we care about
+		entries = new CachedStatistic[60];
+		for (int i = 0; i < 60; i++) {
+			// creating empty stats for each entry
+			entries[i] = new CachedStatistic();
+		}
 	}
 
 	public boolean add(TransactionRequest request) {
@@ -34,29 +32,28 @@ public class CacheService {
 		if (request.getTimestamp() < now - ONE_MINUTE) {
 			return false;
 		}
-		entries.computeIfAbsent(request.getTimestamp(), l -> new ArrayList<>()).add(request.getAmount());
+		int currentIndex = (int) Math.floor(now / 1000) % SECONDS;
+		entries[currentIndex].addEntry(request.getAmount());
 		return true;
 	}
 	
-	public void computeCurrentResponse() {
-		long oneMinuteAgo = System.currentTimeMillis() - ONE_MINUTE;
-		// initialize empty response values
-		final StatisticsResponse newResponse = new StatisticsResponse();
-		entries.keySet().iterator().forEachRemaining(k -> {
-			// too old, removing and ignoring for this run
-			if (k < oneMinuteAgo) {
-				log.debug("Removing old entry: {}", k);
-				entries.remove(k);
-			} else {
-				log.debug("Adding values for: {}", k);
-				entries.get(k).forEach(v -> {
-					newResponse.addEntry(v);
-				});
+	public StatisticsResponse getCurrentResponse() {
+		int currentIndex = (int) Math.floor(System.currentTimeMillis() / 1000) % SECONDS;
+		log.debug("Index is: {}", currentIndex);
+		
+		// iterate last 60 seconds
+		StatisticsResponse response = new StatisticsResponse();
+		for (int count = 0; count < SECONDS; count++) {
+			int i = currentIndex - count;
+			if (i < 0) { // means we've encountered beginning of array
+				i += SECONDS;
 			}
-		});
-		newResponse.calculateAvg();
-		// replace currentResponse;
-		currentResponse = newResponse;
-		log.info("New response value: {}", newResponse);
+			response.update(entries[i]);
+		}
+		// calculate average of last 60 seconds
+		response.calculateAvg();
+		
+		log.debug("Returning response: {}", response);
+		return response;
 	}
 }
