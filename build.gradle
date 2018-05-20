@@ -1,27 +1,28 @@
 plugins {
     id 'io.franzbecker.gradle-lombok' version '1.14'
-	id 'org.springframework.boot' version '2.0.2.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.0.2.RELEASE'
+    id 'java'
 }
 apply plugin: "io.spring.dependency-management"
 
 
 repositories {
-	jcenter()
+    jcenter()
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	compile("org.springframework.boot:spring-boot-starter-web")
-	testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile "org.springframework.boot:spring-boot-starter-web"
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile "org.mockito:mockito-core:2.+"
 }
 
 
 jar {
-	baseName = 'nannmon'
-	version =  '0.0.1-SNAPSHOT'
+    baseName = 'nannmon'
+    version =  '0.0.1-SNAPSHOT'
 }
 
 lombok {
