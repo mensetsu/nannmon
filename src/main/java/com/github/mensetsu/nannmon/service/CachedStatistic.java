@@ -2,12 +2,15 @@ package com.github.mensetsu.nannmon.service;
 
 import java.util.concurrent.locks.StampedLock;
 
+import lombok.AllArgsConstructor;
+
 /**
  * Statistic value that's cached for 60 seconds.
  * Handles all the synchronization of read and writes.
  * 
  * @author amatsuo
  */
+@AllArgsConstructor // just for tests
 public class CachedStatistic {
 	
 	private double sum;
