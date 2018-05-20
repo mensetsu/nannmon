@@ -14,12 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-public class Transactions {
+public class TransactionsController {
 	
 	private final CacheService cache;
 	
 	@Autowired
-	public Transactions(CacheService cache) {
+	public TransactionsController(CacheService cache) {
 		this.cache = cache;
 	}
 	

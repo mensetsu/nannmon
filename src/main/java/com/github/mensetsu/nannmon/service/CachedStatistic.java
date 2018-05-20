@@ -24,7 +24,7 @@ public class CachedStatistic {
 	
 	// lock all write operations
 	
-	public void addEntry(double value) {
+	public void addStatisticValue(double value) {
 		long stamp = lock.writeLock();
 		try {
 			count++;

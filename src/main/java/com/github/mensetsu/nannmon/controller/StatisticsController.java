@@ -11,12 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-public class Statistics {
+public class StatisticsController {
 	
 	private final CacheService cache;
 	
 	@Autowired
-	public Statistics(CacheService cache) {
+	public StatisticsController(CacheService cache) {
 		this.cache = cache;
 	}
 
