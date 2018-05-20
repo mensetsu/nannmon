@@ -5,13 +5,13 @@ import java.util.concurrent.locks.StampedLock;
 import lombok.AllArgsConstructor;
 
 /**
- * Statistic value that's cached for 60 seconds.
+ * Value of all statistics that has occurred during one second.
  * Handles all the synchronization of read and writes.
  * 
  * @author amatsuo
  */
 @AllArgsConstructor // just for tests
-public class CachedAggregateStatistic {
+public class AggregateStatistic {
 	
 	private double sum;
 	private double max;
@@ -19,7 +19,7 @@ public class CachedAggregateStatistic {
 	private long count;
 	private final StampedLock lock;
 	
-	public CachedAggregateStatistic() {
+	public AggregateStatistic() {
 		lock = new StampedLock();
 		// initialize everything to 0
 		clear();

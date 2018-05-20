@@ -17,14 +17,14 @@ public class CacheService {
 	private final static long ONE_MINUTE = 1000 * SECONDS;
 	
 	// entries of transaction amounts by timestamp
-	private final CachedAggregateStatistic[] entries;
+	private final AggregateStatistic[] entries;
 	
 	public CacheService() {
 		// create initial cache with one element for each second that we care about
-		entries = new CachedAggregateStatistic[60];
+		entries = new AggregateStatistic[60];
 		for (int i = 0; i < 60; i++) {
 			// creating empty stats for each entry
-			entries[i] = new CachedAggregateStatistic();
+			entries[i] = new AggregateStatistic();
 		}
 	}
 

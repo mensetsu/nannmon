@@ -1,6 +1,6 @@
 package com.github.mensetsu.nannmon.controller;
 
-import com.github.mensetsu.nannmon.service.CachedAggregateStatistic;
+import com.github.mensetsu.nannmon.service.AggregateStatistic;
 
 import lombok.Data;
 
@@ -18,7 +18,7 @@ public class StatisticsResponse {
 		sum = avg = max = min = count = 0;
 	}
 	
-	public void update(CachedAggregateStatistic cachedStatistic) {
+	public void update(AggregateStatistic cachedStatistic) {
 		sum += cachedStatistic.getSum();
 		// just be careful not to use min if it's 0
 		double minValue = cachedStatistic.getMin();
