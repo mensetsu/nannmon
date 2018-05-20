@@ -14,13 +14,13 @@ import org.springframework.http.ResponseEntity;
 
 import com.github.mensetsu.nannmon.controller.TransactionRequest;
 import com.github.mensetsu.nannmon.controller.TransactionsController;
-import com.github.mensetsu.nannmon.service.CacheService;
+import com.github.mensetsu.nannmon.service.StorageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransactionsControllerTest {
 	
 	@Mock
-	private CacheService cache;
+	private StorageService cache;
 	private TransactionsController controller;
 	
 	@Before

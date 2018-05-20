@@ -18,18 +18,22 @@ public class StatisticsResponse {
 		sum = avg = max = min = count = 0;
 	}
 	
-	public void update(AggregateStatistic cachedStatistic) {
-		sum += cachedStatistic.getSum();
+	public void update(AggregateStatistic aggregate) {
+		// do nothing if there are no statistics
+		if (aggregate.getCount() < 1) {
+			return; 
+		}
+		sum += aggregate.getSum();
 		// just be careful not to use min if it's 0
-		double minValue = cachedStatistic.getMin();
+		double minValue = aggregate.getMin();
 		if (minValue > 0d && (min == 0d || minValue < min)) {
 			min = minValue;
 		}
-		double maxValue = cachedStatistic.getMax();
+		double maxValue = aggregate.getMax();
 		if (maxValue > max) {
 			max = maxValue;
 		}
-		count += cachedStatistic.getCount();
+		count += aggregate.getCount();
 	}
 	
 	public void calculateAvg() {

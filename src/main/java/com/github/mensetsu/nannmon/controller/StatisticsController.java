@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.mensetsu.nannmon.service.CacheService;
+import com.github.mensetsu.nannmon.service.StorageService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,10 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class StatisticsController {
 	
-	private final CacheService cache;
+	private final StorageService cache;
 	
 	@Autowired
-	public StatisticsController(CacheService cache) {
+	public StatisticsController(StorageService cache) {
 		this.cache = cache;
 	}
 

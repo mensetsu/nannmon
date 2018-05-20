@@ -10,13 +10,13 @@ import static org.mockito.Mockito.*;
 
 import com.github.mensetsu.nannmon.controller.StatisticsController;
 import com.github.mensetsu.nannmon.controller.StatisticsResponse;
-import com.github.mensetsu.nannmon.service.CacheService;
+import com.github.mensetsu.nannmon.service.StorageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StatisticsControllerTest {
 	
 	@Mock
-	private CacheService cache;
+	private StorageService cache;
 	
 	@Test
 	public void testCallToCurrentResponse() {

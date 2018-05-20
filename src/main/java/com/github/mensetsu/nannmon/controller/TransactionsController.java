@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.mensetsu.nannmon.service.CacheService;
+import com.github.mensetsu.nannmon.service.StorageService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,10 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TransactionsController {
 	
-	private final CacheService cache;
+	private final StorageService cache;
 	
 	@Autowired
-	public TransactionsController(CacheService cache) {
+	public TransactionsController(StorageService cache) {
 		this.cache = cache;
 	}
 	

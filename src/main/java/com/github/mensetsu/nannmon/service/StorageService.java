@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class CacheService {
+public class StorageService {
 	
 	private final static int SECONDS = 60;
 	// X seconds in milliseconds 
@@ -19,7 +19,7 @@ public class CacheService {
 	// entries of transaction amounts by timestamp
 	private final AggregateStatistic[] entries;
 	
-	public CacheService() {
+	public StorageService() {
 		// create initial cache with one element for each second that we care about
 		entries = new AggregateStatistic[60];
 		for (int i = 0; i < 60; i++) {
@@ -57,7 +57,7 @@ public class CacheService {
 	@Scheduled(initialDelay = 1000, fixedRate = 1000)
 	public void cleanup() {
 		int currentIndex = getCurrentIndex();
-		int expiredIndex = subtractFromIndex(currentIndex, (CacheService.SECONDS - 1));
+		int expiredIndex = subtractFromIndex(currentIndex, (StorageService.SECONDS - 1));
 		
 		log.debug("Cleanup has been called on index: {}", expiredIndex);
 		entries[expiredIndex].clear();

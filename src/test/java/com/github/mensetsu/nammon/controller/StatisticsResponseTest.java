@@ -17,12 +17,18 @@ public class StatisticsResponseTest implements CommonTest {
 	}
 	
 	@Test
-	public void testNegativeMin() {
+	public void testInvalidAggregateStatistics() {
 		StatisticsResponse response = new StatisticsResponse();
-		AggregateStatistic badStat = new AggregateStatistic(0d, 0d, -1d, 0, new StampedLock());
-		response.update(badStat);
+		AggregateStatistic negativeMin = new AggregateStatistic(0d, 0d, -1d, 1000, new StampedLock());
+		response.update(negativeMin);
 		response.calculateAvg();
-		assertResponse(0d, 0d, 0d, 0d, 0l, response); // min doesn't change
+		assertResponse(0d, 0d, 0d, 0d, 1000l, response); // min doesn't change
+		
+		response = new StatisticsResponse();
+		AggregateStatistic noCount = new AggregateStatistic(10d, 10d, 10d, 0, new StampedLock());
+		response.update(noCount);
+		response.calculateAvg();
+		assertResponse(0d, 0d, 0d, 0d, 0l, response); // no changes
 	}
 	
 	@Test
