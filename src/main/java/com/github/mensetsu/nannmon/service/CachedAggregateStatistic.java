@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
  * @author amatsuo
  */
 @AllArgsConstructor // just for tests
-public class CachedStatistic {
+public class CachedAggregateStatistic {
 	
 	private double sum;
 	private double max;
@@ -19,7 +19,7 @@ public class CachedStatistic {
 	private long count;
 	private final StampedLock lock;
 	
-	public CachedStatistic() {
+	public CachedAggregateStatistic() {
 		lock = new StampedLock();
 		// initialize everything to 0
 		clear();

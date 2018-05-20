@@ -7,7 +7,7 @@ import java.util.concurrent.locks.StampedLock;
 import org.junit.Test;
 
 import com.github.mensetsu.nannmon.controller.StatisticsResponse;
-import com.github.mensetsu.nannmon.service.CachedStatistic;
+import com.github.mensetsu.nannmon.service.CachedAggregateStatistic;
 
 public class StatisticsResponseTest {
 	
@@ -29,24 +29,33 @@ public class StatisticsResponseTest {
 	}
 	
 	@Test
+	public void testNegativeMin() {
+		StatisticsResponse response = new StatisticsResponse();
+		CachedAggregateStatistic badStat = new CachedAggregateStatistic(0d, 0d, -1d, 0, new StampedLock());
+		response.update(badStat);
+		response.calculateAvg();
+		assertResponse(0d, 0d, 0d, 0d, 0l, response); // min doesn't change
+	}
+	
+	@Test
 	public void testCalcuations() {
-		CachedStatistic stat1 = new CachedStatistic(2d, 2d, 2d, 1, new StampedLock());
+		CachedAggregateStatistic stat1 = new CachedAggregateStatistic(2d, 2d, 2d, 1, new StampedLock());
 		StatisticsResponse response = new StatisticsResponse();
 		response.update(stat1);
 		response.calculateAvg();
 		assertResponse(2d, 2d, 2d, 2d, 1l, response);
 		
-		CachedStatistic stat2 = new CachedStatistic(4d, 4d, 4d, 1, new StampedLock());
+		CachedAggregateStatistic stat2 = new CachedAggregateStatistic(4d, 4d, 4d, 1, new StampedLock());
 		response.update(stat2);
 		response.calculateAvg();
 		assertResponse(6d, 3d, 4d, 2d, 2l, response); // new max
 		
-		CachedStatistic stat3 = new CachedStatistic(1d, 1d, 1d, 1, new StampedLock());
+		CachedAggregateStatistic stat3 = new CachedAggregateStatistic(1d, 1d, 1d, 1, new StampedLock());
 		response.update(stat3);
 		response.calculateAvg();
 		assertResponse(7d, 7d/3d, 4d, 1d, 3l, response); // new min
 		
-		CachedStatistic stat4 = new CachedStatistic(10d, 1d, 1d, 10, new StampedLock());
+		CachedAggregateStatistic stat4 = new CachedAggregateStatistic(10d, 1d, 1d, 10, new StampedLock());
 		response.update(stat4);
 		response.calculateAvg();
 		assertResponse(17d, 17d/13d, 4d, 1d, 13l, response); // aggregate count
