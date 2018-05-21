@@ -96,7 +96,7 @@ public class StorageService {
 		
 		try {
 			log.debug("Clean up will wait for ~{}ms", msToNextSecond);
-			// sleep minus a small delta
+			// sleep to expiry time minus a small delta
 			Thread.sleep(msToNextSecond - 1);
 		} catch (InterruptedException e) {
 			log.warn("Thread was interrupted: {}", e);
