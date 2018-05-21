@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.github.mensetsu.nannmon.controller.StatisticsResponse;
 import com.github.mensetsu.nannmon.controller.TransactionRequest;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,12 +19,13 @@ public class StorageService {
 	private final static long ONE_MINUTE = 1000 * SECONDS;
 	
 	// entries of transaction amounts by timestamp
+	@Getter(AccessLevel.PACKAGE) // only for unit testing
 	private final AggregateStatistic[] entries;
 	
 	public StorageService() {
 		// create initial cache with one element for each second that we care about
-		entries = new AggregateStatistic[60];
-		for (int i = 0; i < 60; i++) {
+		entries = new AggregateStatistic[SECONDS];
+		for (int i = 0; i < SECONDS; i++) {
 			// creating empty stats for each entry
 			entries[i] = new AggregateStatistic();
 		}
@@ -32,7 +35,7 @@ public class StorageService {
 		if (request.getTimestamp() < System.currentTimeMillis() - ONE_MINUTE) {
 			return false;
 		}
-		int currentIndex = getCurrentIndex();
+		int currentIndex = getTimeIndex(request.getTimestamp());
 		entries[currentIndex].addStatisticValue(request.getAmount());
 		return true;
 	}
@@ -65,10 +68,15 @@ public class StorageService {
 	
 	// a couple of handy methods to deal with index logic
 	
-	private int getCurrentIndex() {
-		int currentIndex = (int) Math.floor(System.currentTimeMillis() / 1000) % SECONDS;
+	// package-level so we can call method from tests as well
+	int getTimeIndex(long timestamp) {
+		int currentIndex = (int) Math.floor(timestamp / 1000) % SECONDS;
 		log.debug("Index is: {}", currentIndex);
 		return currentIndex;
+	}
+	
+	private int getCurrentIndex() {
+		return getTimeIndex(System.currentTimeMillis());
 	}
 	
 	private int subtractFromIndex(int index, int minus) {

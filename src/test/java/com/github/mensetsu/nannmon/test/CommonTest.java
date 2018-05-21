@@ -1,4 +1,4 @@
-package com.github.mensetsu.nammon.test;
+package com.github.mensetsu.nannmon.test;
 
 import static org.junit.Assert.assertEquals;
 

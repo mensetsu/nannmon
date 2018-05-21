@@ -1,9 +1,9 @@
-package com.github.mensetsu.nammon.service;
+package com.github.mensetsu.nannmon.service;
 
 import org.junit.Test;
 
-import com.github.mensetsu.nammon.test.CommonTest;
 import com.github.mensetsu.nannmon.service.AggregateStatistic;
+import com.github.mensetsu.nannmon.test.CommonTest;
 
 public class AggregateStatisticTest implements CommonTest {
 

@@ -1,12 +1,12 @@
-package com.github.mensetsu.nammon.controller;
+package com.github.mensetsu.nannmon.controller;
 
 import java.util.concurrent.locks.StampedLock;
 
 import org.junit.Test;
 
-import com.github.mensetsu.nammon.test.CommonTest;
 import com.github.mensetsu.nannmon.controller.StatisticsResponse;
 import com.github.mensetsu.nannmon.service.AggregateStatistic;
+import com.github.mensetsu.nannmon.test.CommonTest;
 
 public class StatisticsResponseTest implements CommonTest {
 	
@@ -19,12 +19,6 @@ public class StatisticsResponseTest implements CommonTest {
 	@Test
 	public void testInvalidAggregateStatistics() {
 		StatisticsResponse response = new StatisticsResponse();
-		AggregateStatistic negativeMin = new AggregateStatistic(0d, 0d, -1d, 1000, new StampedLock());
-		response.update(negativeMin);
-		response.calculateAvg();
-		assertResponse(0d, 0d, 0d, 0d, 1000l, response); // min doesn't change
-		
-		response = new StatisticsResponse();
 		AggregateStatistic noCount = new AggregateStatistic(10d, 10d, 10d, 0, new StampedLock());
 		response.update(noCount);
 		response.calculateAvg();

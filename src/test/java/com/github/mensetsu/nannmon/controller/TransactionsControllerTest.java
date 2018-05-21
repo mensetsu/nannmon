@@ -1,4 +1,4 @@
-package com.github.mensetsu.nammon.controller;
+package com.github.mensetsu.nannmon.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

@@ -1,4 +1,4 @@
-package com.github.mensetsu.nammon.controller;
+package com.github.mensetsu.nannmon.controller;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
