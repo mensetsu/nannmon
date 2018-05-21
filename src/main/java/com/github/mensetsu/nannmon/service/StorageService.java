@@ -73,11 +73,21 @@ public class StorageService {
 	
 	@Scheduled(initialDelay = 1000, fixedRate = 1000)
 	public void cleanup() {
-		int currentIndex = getCurrentIndex();
-		int expiredIndex = subtractFromIndex(currentIndex, (StorageService.SECONDS - 1));
+		long now = System.currentTimeMillis();
+		int currentIndex = getTimeIndex(now);
+		int expiringIndex = subtractFromIndex(currentIndex, (StorageService.SECONDS - 1));
+		long msToNextSecond = 1000 - (now % 1000);
 		
-		log.debug("Cleanup has been called on index: {}", expiredIndex);
-		entries[expiredIndex].clear();
+		try {
+			log.debug("Clean up will wait for ~{}ms", msToNextSecond);
+			// sleep minus a small delta
+			Thread.sleep(msToNextSecond - 1);
+		} catch (InterruptedException e) {
+			log.warn("Thread was interrupted: {}", e);
+		}
+		
+		log.debug("Cleanup has been called on index: {}", expiringIndex);
+		entries[expiringIndex].clear();
 	}
 	
 	// a couple of handy methods to deal with index logic
