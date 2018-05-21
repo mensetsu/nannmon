@@ -9,6 +9,11 @@ import com.github.mensetsu.nannmon.service.StorageService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * JSON REST controller for displaying statistics.
+ * 
+ * @author amatsuo
+ */
 @Slf4j
 @RestController
 public class StatisticsController {
@@ -20,6 +25,10 @@ public class StatisticsController {
 		this.storage = storage;
 	}
 
+	/**
+	 * GET method for /statistics
+	 * @return statistics for the past 60 seconds
+	 */
 	@RequestMapping(value = "/statistics", method = RequestMethod.GET)
 	public StatisticsResponse get() {
 		log.debug("Stats GET has been called...");

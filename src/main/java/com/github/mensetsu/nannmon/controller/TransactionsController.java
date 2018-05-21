@@ -12,6 +12,11 @@ import com.github.mensetsu.nannmon.service.StorageService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * JSON REST controller for accepting transaction information.
+ * 
+ * @author amatsuo
+ */
 @Slf4j
 @RestController
 public class TransactionsController {
@@ -23,6 +28,11 @@ public class TransactionsController {
 		this.storage = storage;
 	}
 	
+	/**
+	 * POST method for /transactions
+	 * @param request contains the transaction parameters
+	 * @return ResponseEntity with HttpStatus of BAD_REQUEST, NO_CONTENT, or CREATED
+	 */
 	@RequestMapping(value = "/transactions", method = RequestMethod.POST)
 	public ResponseEntity<Void> post(@RequestBody TransactionRequest request) {
 		log.debug("Txn POST has been called with: {}", request);
