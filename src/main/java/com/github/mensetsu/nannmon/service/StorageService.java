@@ -31,8 +31,22 @@ public class StorageService {
 		}
 	}
 
+	/**
+	 * Adds transaction to current entry if it's valid; ie, not older than
+	 * 1 minute (from current time) and not in the future.  The future requirement
+	 * was not explicitly stated in the requirements, but it could potentially cause
+	 * problems with the reuse of our entries array, so we will not allow it.
+	 * @param request
+	 * @return true if request was added, false otherwise
+	 */
 	public boolean add(TransactionRequest request) {
-		if (request.getTimestamp() < System.currentTimeMillis() - ONE_MINUTE) {
+		long now = System.currentTimeMillis();
+		if (request.getTimestamp() < now - ONE_MINUTE) {
+			log.debug("Request is too old: {}", request);
+			return false;
+		}
+		if (request.getTimestamp() > now) {
+			log.debug("Request is too new: {}", request);
 			return false;
 		}
 		int currentIndex = getTimeIndex(request.getTimestamp());

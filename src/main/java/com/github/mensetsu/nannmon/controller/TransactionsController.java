@@ -16,11 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TransactionsController {
 	
-	private final StorageService cache;
+	private final StorageService storage;
 	
 	@Autowired
-	public TransactionsController(StorageService cache) {
-		this.cache = cache;
+	public TransactionsController(StorageService storage) {
+		this.storage = storage;
 	}
 	
 	@RequestMapping(value = "/transactions", method = RequestMethod.POST)
@@ -32,12 +32,11 @@ public class TransactionsController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		// try to add request to cache
-		if (!cache.add(request)) {
-			log.debug("Txn is too old to be cached: request ({})", request.getTimestamp());
+		// try to add request to storage
+		if (!storage.add(request)) {
+			log.debug("Txn was not added to storage: request ({})", request.getTimestamp());
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} 
-		// specifications don't mention anything about timestamps in the future so they will be treated as valid
 		log.debug("Txn timestamp is valid");
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

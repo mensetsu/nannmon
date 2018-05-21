@@ -13,11 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class StatisticsController {
 	
-	private final StorageService cache;
+	private final StorageService storage;
 	
 	@Autowired
-	public StatisticsController(StorageService cache) {
-		this.cache = cache;
+	public StatisticsController(StorageService storage) {
+		this.storage = storage;
 	}
 
 	@RequestMapping(value = "/statistics", method = RequestMethod.GET)
@@ -25,7 +25,7 @@ public class StatisticsController {
 		log.debug("Stats GET has been called...");
 		
 		// specifications don't mention a specific response code, so won't specify one here
-		return cache.getCurrentResponse();
+		return storage.getCurrentResponse();
 	}
 
 }

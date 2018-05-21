@@ -45,7 +45,15 @@ public class StorageServiceTest implements CommonTest {
 		// old request
 		boolean ok = service.add(oldRequest);
 		assertFalse(ok);
-		assertInitialState(service.getEntries());	
+		assertInitialState(service.getEntries());
+		
+		// too new by 1ms
+		TransactionRequest tooNewRequest = new TransactionRequest(1d, System.currentTimeMillis() + 1);
+		// too new request
+		ok = service.add(tooNewRequest);
+		assertFalse(ok);
+		assertInitialState(service.getEntries());
+		
 		// new request
 		TransactionRequest newRequest = new TransactionRequest(1d, System.currentTimeMillis());
 		ok = service.add(newRequest);
