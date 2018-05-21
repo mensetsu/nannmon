@@ -29,7 +29,7 @@ To run the tests:
 To run the application:
 ./gradlew bootRun
 
-### NOTES: 
+### Notes: 
 - test results can be viewed after the tests have been run at: build/reports/tests/test/index.html
 - application will start up on port 8080
 - logging is fairly verbose, please configure log level in application.properties to your liking
