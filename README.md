@@ -1,4 +1,4 @@
-# nannmon
+# nannmon (難問)
 
 ## Description:
 
@@ -6,7 +6,7 @@ Backend challenge for N26: Create 2 api's for storing and retrieving real-time t
 
 ## Prerequisites:
 
-Requires:
+### Requires:
 - Java8
 - gradle 4.7+
 - lombok 1.16.20
@@ -29,7 +29,7 @@ To run the tests:
 To run the application:
 ./gradlew bootRun
 
-NOTES: 
+### NOTES: 
 - test results can be viewed after the tests have been run at: build/reports/tests/test/index.html
 - application will start up on port 8080
 - logging is fairly verbose, please configure log level in application.properties to your liking
