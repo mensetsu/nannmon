@@ -12,12 +12,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 public class Application {
-    
-	/**
-	 * Starts spring-boot.
-	 * @param args CLI args
-	 */
-	public static void main(String[] args) {
+
+    /**
+     * Starts spring-boot.
+     * 
+     * @param args
+     *            CLI args
+     */
+    public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 

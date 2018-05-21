@@ -14,19 +14,19 @@ import com.github.mensetsu.nannmon.service.StorageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StatisticsControllerTest {
-	
-	@Mock
-	private StorageService cache;
-	
-	@Test
-	public void testCallToCurrentResponse() {
-		StatisticsController controller = new StatisticsController(cache);
-		StatisticsResponse expected = new StatisticsResponse();
-		expected.setMax(99d); // just setting a random value
-		when(cache.getCurrentResponse()).thenReturn(expected);
-		
-		StatisticsResponse response = controller.get();
-		assertEquals(expected, response);
-	}
+
+    @Mock
+    private StorageService cache;
+
+    @Test
+    public void testCallToCurrentResponse() {
+        StatisticsController controller = new StatisticsController(cache);
+        StatisticsResponse expected = new StatisticsResponse();
+        expected.setMax(99d); // just setting a random value
+        when(cache.getCurrentResponse()).thenReturn(expected);
+
+        StatisticsResponse response = controller.get();
+        assertEquals(expected, response);
+    }
 
 }

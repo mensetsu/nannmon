@@ -20,35 +20,37 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class TransactionsController {
-	
-	private final StorageService storage;
-	
-	@Autowired
-	public TransactionsController(StorageService storage) {
-		this.storage = storage;
-	}
-	
-	/**
-	 * POST method for /transactions
-	 * @param request contains the transaction parameters
-	 * @return ResponseEntity with HttpStatus of BAD_REQUEST, NO_CONTENT, or CREATED
-	 */
-	@RequestMapping(value = "/transactions", method = RequestMethod.POST)
-	public ResponseEntity<Void> post(@RequestBody TransactionRequest request) {
-		log.debug("Txn POST has been called with: {}", request);
-		
-		// simple validation
-		if (request == null || !request.isValid()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		// try to add request to storage
-		if (!storage.add(request)) {
-			log.debug("Txn was not added to storage: request ({})", request.getTimestamp());
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} 
-		log.debug("Txn timestamp is valid");
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
+
+    private final StorageService storage;
+
+    @Autowired
+    public TransactionsController(StorageService storage) {
+        this.storage = storage;
+    }
+
+    /**
+     * POST method for /transactions
+     * 
+     * @param request
+     *            contains the transaction parameters
+     * @return ResponseEntity with HttpStatus of BAD_REQUEST, NO_CONTENT, or CREATED
+     */
+    @RequestMapping(value = "/transactions", method = RequestMethod.POST)
+    public ResponseEntity<Void> post(@RequestBody TransactionRequest request) {
+        log.debug("Txn POST has been called with: {}", request);
+
+        // simple validation
+        if (request == null || !request.isValid()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        // try to add request to storage
+        if (!storage.add(request)) {
+            log.debug("Txn was not added to storage: request ({})", request.getTimestamp());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        log.debug("Txn timestamp is valid");
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
 }

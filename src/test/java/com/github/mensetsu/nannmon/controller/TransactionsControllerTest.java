@@ -18,52 +18,52 @@ import com.github.mensetsu.nannmon.service.StorageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransactionsControllerTest {
-	
-	@Mock
-	private StorageService cache;
-	private TransactionsController controller;
-	
-	@Before
-	public void setUp() {
-		controller = new TransactionsController(cache);
-	}
-	
-	@Test
-	public void testValidation() {
-		ResponseEntity<Void> response = controller.post(null);
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		
-		TransactionRequest invalidRequest = new TransactionRequest();
-		assertFalse(invalidRequest.isValid());
-		response = controller.post(invalidRequest);
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		
-		invalidRequest.setAmount(99d);
-		assertFalse(invalidRequest.isValid());
-		response = controller.post(invalidRequest);
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		
-		invalidRequest = new TransactionRequest(null, 99l);
-		assertFalse(invalidRequest.isValid());
-		response = controller.post(invalidRequest);
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	}
-	
-	@Test
-	public void testOldTimestamp() {
-		TransactionRequest request = new TransactionRequest(99d, 99l);
-		when(cache.add(request)).thenReturn(false); // mock up old request response
-		
-		ResponseEntity<Void> response = controller.post(request);
-		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-	}
 
-	@Test
-	public void testValidTimestamp() {
-		TransactionRequest request = new TransactionRequest(99d, 99l);
-		when(cache.add(request)).thenReturn(true); // mock up valid request response
-		
-		ResponseEntity<Void> response = controller.post(request);
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-	}
+    @Mock
+    private StorageService cache;
+    private TransactionsController controller;
+
+    @Before
+    public void setUp() {
+        controller = new TransactionsController(cache);
+    }
+
+    @Test
+    public void testValidation() {
+        ResponseEntity<Void> response = controller.post(null);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+        TransactionRequest invalidRequest = new TransactionRequest();
+        assertFalse(invalidRequest.isValid());
+        response = controller.post(invalidRequest);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+        invalidRequest.setAmount(99d);
+        assertFalse(invalidRequest.isValid());
+        response = controller.post(invalidRequest);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+        invalidRequest = new TransactionRequest(null, 99l);
+        assertFalse(invalidRequest.isValid());
+        response = controller.post(invalidRequest);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void testOldTimestamp() {
+        TransactionRequest request = new TransactionRequest(99d, 99l);
+        when(cache.add(request)).thenReturn(false); // mock up old request response
+
+        ResponseEntity<Void> response = controller.post(request);
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+    @Test
+    public void testValidTimestamp() {
+        TransactionRequest request = new TransactionRequest(99d, 99l);
+        when(cache.add(request)).thenReturn(true); // mock up valid request response
+
+        ResponseEntity<Void> response = controller.post(request);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
 }
