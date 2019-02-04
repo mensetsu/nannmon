@@ -2,7 +2,7 @@
 
 ## Description:
 
-Backend challenge for N26: Create 2 api's for storing and retrieving real-time transaction statitics for the most recent 60 second period. Storage cannot use a db and must be thread-safe. Api's should aim for constant time and space performance.
+Backend coding challenge: Create 2 api's for storing and retrieving real-time transaction statitics for the most recent 60 second period. Storage cannot use a db and must be thread-safe. Api's should aim for constant time and space performance.
 
 ## Prerequisites:
 
